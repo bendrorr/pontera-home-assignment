@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +19,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class StorageUtil {
     private static final String FILE_PATH = "src/test/resources/storageState.json";
-    private static final String DOMAIN = "advisor-test.pontera.com";
 
     private final AuthenticationApi authenticationApi;
     private final AuthenticationDataProvider dataProvider;
@@ -31,51 +29,36 @@ public class StorageUtil {
             return;
         }
 
-        Map<String, String> apiCookies = getApiCookies();
-        List<Map<String, Object>> allCookies = buildAllCookies(apiCookies);
-
-        Map<String, Object> storage = Map.of(
-                "cookies", allCookies,
-                "origins", Collections.emptyList()
-        );
+        Map<String, Object> cookie = buildJSessionIdCookie();
+        Map<String, Object> storage = buildStorageState(cookie);
 
         saveToFile(storage);
     }
 
-    private Map<String, String> getApiCookies() {
-        LoginRequest request = dataProvider.createLoginRequest();
-        Response response = authenticationApi.sendLoginRequest(request);
-        return response.getCookies();
-    }
-
-    private List<Map<String, Object>> buildAllCookies(Map<String, String> apiCookies) {
-        List<Map<String, Object>> cookies = new ArrayList<>();
-        addCookie(cookies, "JSESSIONID", apiCookies.get("JSESSIONID"), true);
-        addCookie(cookies, "AWSALB", apiCookies.get("AWSALB"), false);
-        addCookie(cookies, "AWSALBCORS", apiCookies.get("AWSALBCORS"), false);
-        return cookies;
-    }
-
-    private void addCookie(List<Map<String, Object>> cookies, String name, String value, boolean httpOnly) {
-        long expires = Instant.now().getEpochSecond() + 3600;
-        addCookie(cookies, name, value, expires, httpOnly);
-    }
-
-    private void addCookie(List<Map<String, Object>> cookies, String name, String value, long expires, boolean httpOnly) {
-        if (value == null) {
-            return;
-        }
-
-        cookies.add(Map.of(
-                "name", name,
-                "value", value,
-                "domain", DOMAIN,
+    private Map<String, Object> buildJSessionIdCookie() {
+        return Map.of(
+                "name", "JSESSIONID",
+                "value", getSessionIdFromLogin(),
+                "domain", "advisor-test.pontera.com",
                 "path", "/",
-                "httpOnly", httpOnly,
+                "httpOnly", true,
                 "secure", true,
                 "sameSite", "Lax",
-                "expires", expires
-        ));
+                "expires", Instant.now().getEpochSecond() + 3600
+        );
+    }
+
+    private Map<String, Object> buildStorageState(Map<String, Object> cookie) {
+        return Map.of(
+                "cookies", List.of(cookie),
+                "origins", Collections.emptyList()
+        );
+    }
+
+    private String getSessionIdFromLogin() {
+        LoginRequest request = dataProvider.createLoginRequest();
+        Response response = authenticationApi.sendLoginRequest(request);
+        return response.getCookies().get("JSESSIONID");
     }
 
     private void saveToFile(Map<String, Object> data) throws IOException {
@@ -84,7 +67,7 @@ public class StorageUtil {
         objectMapper.writeValue(file, data);
     }
 
-    public boolean isStorageFileExpired() {
+    private boolean isStorageFileExpired() {
         File file = new File(FILE_PATH);
         if (!file.exists()) {
             return true;
@@ -95,5 +78,4 @@ public class StorageUtil {
 
         return lastModified.isBefore(threshold);
     }
-
 }
