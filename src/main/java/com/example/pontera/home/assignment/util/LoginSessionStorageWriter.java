@@ -23,10 +23,8 @@ public class LoginSessionStorageWriter {
     private static final String FEE_X_USER_VALUE = "userId%3D453631918%26autoLogin%3Dfalse%26r%3Dmem9ir1cvmltsotbqona17ddtj%26c%3Dxxencrypted2xx...";
     private static final String CC_VALUE = "tuacce215pgie8v2efom5f7v7p";
     private static final String USER_ID = "453631918";
-
     @Value("${auth.email}")
     private String advisorEmail;
-
     private final AuthenticationApi authenticationApi;
     private final AuthenticationDataProvider dataProvider;
 
