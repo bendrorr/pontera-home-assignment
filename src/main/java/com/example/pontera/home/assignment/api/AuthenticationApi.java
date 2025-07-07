@@ -17,12 +17,17 @@ public class AuthenticationApi {
 
     public Response sendLoginRequest(LoginRequest loginRequest) {
         return createRequest(loginRequest)
-                .post(QUERY_PARAMS);
+                .post(QUERY_PARAMS)
+                .then()
+                .log().all()
+                .extract()
+                .response();
     }
 
     private RequestSpecification createRequest(LoginRequest loginRequest) {
         return RestAssured
                 .given()
+                .log().all()
                 .baseUri(BASE_URI)
                 .basePath(LOGIN_PATH)
                 .header(HttpHeaders.REFERER, REFERER_HEADER)
