@@ -3,7 +3,7 @@ package com.example.pontera.home.assignment.ui;
 import com.example.pontera.home.assignment.config.ComponentScanConfig;
 import com.example.pontera.home.assignment.pages.impl.AddNewClientPage;
 import com.example.pontera.home.assignment.pages.impl.ClientsPage;
-import com.example.pontera.home.assignment.util.storageUtil;
+import com.example.pontera.home.assignment.util.StorageUtil;
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
@@ -31,7 +31,7 @@ public class PonteraWebsiteWithStorageTests {
     @Autowired
     private Browser browser;
     @Autowired
-    private storageUtil storageUtil;
+    private StorageUtil storageUtil;
 
     private BrowserContext context;
     private Page page;

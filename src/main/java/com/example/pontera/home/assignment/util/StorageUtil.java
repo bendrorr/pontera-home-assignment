@@ -18,7 +18,7 @@ import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
-public class storageUtil {
+public class StorageUtil {
     private static final String FILE_PATH = "src/test/resources/storageState.json";
     private static final String DOMAIN = "advisor-test.pontera.com";
 
