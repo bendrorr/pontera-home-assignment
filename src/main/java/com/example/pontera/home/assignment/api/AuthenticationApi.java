@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AuthenticationApi {
-
     private static final String BASE_URI = "https://advisor-test.pontera.com";
     private static final String LOGIN_PATH = "/business/rest/api/users/authenticate";
     private static final String REFERER_HEADER = "https://advisor-test.pontera.com/business/auth/signin";

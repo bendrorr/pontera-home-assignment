@@ -20,7 +20,6 @@ import java.util.Map;
 @Component
 @RequiredArgsConstructor
 public class LoginSessionStorageWriter {
-
     private static final String FILE_PATH = "src/test/resources/storageState.json";
     private static final String DOMAIN = "advisor-test.pontera.com";
     private static final long SESSION_EXPIRY_MINUTES = 15;
