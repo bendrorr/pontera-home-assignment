@@ -1,1 +1,1 @@
-{"cookies":[{"sameSite":"Lax","value":"C5424500B9E51BA9FA9F1540B1AC7977","domain":"advisor-test.pontera.com","path":"/","httpOnly":true,"secure":true,"expires":1751913965,"name":"JSESSIONID"}],"origins":[]}
+{"cookies":[{"name":"JSESSIONID","sameSite":"Lax","value":"99716F4019CF350594F49AD8164C513A","domain":"advisor-test.pontera.com","path":"/","httpOnly":true,"secure":true,"expires":1751914305}],"origins":[]}

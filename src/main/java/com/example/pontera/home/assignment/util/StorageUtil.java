@@ -29,13 +29,13 @@ public class StorageUtil {
             return;
         }
 
-        Map<String, Object> cookie = buildJSessionIdCookie();
-        Map<String, Object> storage = buildStorageState(cookie);
+        Map<String, Object> cookie = createJSessionCookie();
+        Map<String, Object> storage = createStorageMap(cookie);
 
         saveToFile(storage);
     }
 
-    private Map<String, Object> buildJSessionIdCookie() {
+    private Map<String, Object> createJSessionCookie() {
         return Map.of(
                 "name", "JSESSIONID",
                 "value", getSessionIdFromLogin(),
@@ -48,7 +48,7 @@ public class StorageUtil {
         );
     }
 
-    private Map<String, Object> buildStorageState(Map<String, Object> cookie) {
+    private Map<String, Object> createStorageMap(Map<String, Object> cookie) {
         return Map.of(
                 "cookies", List.of(cookie),
                 "origins", Collections.emptyList()
