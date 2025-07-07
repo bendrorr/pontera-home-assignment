@@ -4,6 +4,7 @@ import com.example.pontera.home.assignment.dto.LoginRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,8 +25,8 @@ public class AuthenticationApi {
                 .given()
                 .baseUri(BASE_URI)
                 .basePath(LOGIN_PATH)
-                .header("Referer", REFERER_HEADER)
-                .header("Content-Type", CONTENT_TYPE_JSON)
+                .header(HttpHeaders.REFERER, REFERER_HEADER)
+                .header(HttpHeaders.CONTENT_TYPE, CONTENT_TYPE_JSON)
                 .body(loginRequest);
     }
 }
