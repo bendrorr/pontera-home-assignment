@@ -22,9 +22,9 @@ import java.util.Map;
 public class LoginSessionStorageWriter {
     @Value("${auth.email}")
     private String advisorEmail;
-    private static final String FILE_PATH = "src/test/resources/storageState.json";
-    private static final String DOMAIN = "advisor-test.pontera.com";
-    private static final long TEN_YEARS_SECONDS = 60L * 60 * 24 * 365 * 10;
+    private final String FILE_PATH = "src/test/resources/storageState.json";
+    private final String DOMAIN = "advisor-test.pontera.com";
+    private final long TEN_YEARS_SECONDS = 60L * 60 * 24 * 365 * 10;
 
     private final AuthenticationApi authenticationApi;
     private final AuthenticationDataProvider dataProvider;
@@ -92,7 +92,7 @@ public class LoginSessionStorageWriter {
     }
 
     private void writeJsonToFile(Map<String, Object> data) throws IOException {
-        File file = new File(LoginSessionStorageWriter.FILE_PATH);
+        File file = new File(FILE_PATH);
         file.getParentFile().mkdirs();
         new ObjectMapper().writeValue(file, data);
     }

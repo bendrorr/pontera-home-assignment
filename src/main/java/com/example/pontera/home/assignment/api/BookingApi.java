@@ -12,10 +12,10 @@ import java.util.Map;
 @Component
 public class BookingApi {
 
-    private static final String BASE_URL = "https://restful-booker.herokuapp.com/";
-    private static final String BOOKING_ENDPOINT = "booking";
-    private static final String CONTENT_TYPE_JSON = "application/json";
-    private static final String AUTHORIZATION = "Basic YWRtaW46cGFzc3dvcmQxMjM=";
+    private final String BASE_URL = "https://restful-booker.herokuapp.com/";
+    private final String BOOKING_ENDPOINT = "booking";
+    private final String CONTENT_TYPE_JSON = "application/json";
+    private final String AUTHORIZATION = "Basic YWRtaW46cGFzc3dvcmQxMjM=";
 
     public Response createBooking(BookingDto body) {
         return baseRequest()

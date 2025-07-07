@@ -37,7 +37,7 @@ public class PonteraWebsiteWithStorageTests {
     private Page page;
     private ClientsPage clientsPage;
     private AddNewClientPage addNewClientPage;
-    private static final String STORAGE_PATH = "src/test/resources/storageState.json";
+    private final String STORAGE_PATH = "src/test/resources/storageState.json";
 
 
     @BeforeEach
