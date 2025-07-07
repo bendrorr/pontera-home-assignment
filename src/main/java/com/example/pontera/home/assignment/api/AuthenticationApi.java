@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthenticationApi {
 
-    private final String BASE_URI = "https://advisor-test.pontera.com";
-    private final String LOGIN_PATH = "/business/rest/api/users/authenticate";
-    private final String REFERER_HEADER = "https://advisor-test.pontera.com/business/auth/signin";
-    private final String CONTENT_TYPE_JSON = "application/json";
-    private final String QUERY_PARAMS = "?CT=null";
+    private static final String BASE_URI = "https://advisor-test.pontera.com";
+    private static final String LOGIN_PATH = "/business/rest/api/users/authenticate";
+    private static final String REFERER_HEADER = "https://advisor-test.pontera.com/business/auth/signin";
+    private static final String CONTENT_TYPE_JSON = "application/json";
+    private static final String QUERY_PARAMS = "?CT=null";
 
     public Response sendLoginRequest(LoginRequest loginRequest) {
         return createRequest(loginRequest)
