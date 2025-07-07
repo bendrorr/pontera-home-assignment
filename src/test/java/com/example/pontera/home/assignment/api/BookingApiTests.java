@@ -3,8 +3,6 @@ package com.example.pontera.home.assignment.api;
 import com.example.pontera.home.assignment.api.testdata.BookingDataProvider;
 import com.example.pontera.home.assignment.dto.BookingDto;
 import com.example.pontera.home.assignment.util.JsonUtil;
-import com.example.pontera.home.assignment.util.NullUtil;
-import com.fasterxml.jackson.databind.JsonNode;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +33,7 @@ public class BookingApiTests {
         Response creationResponse = bookingApi.createBooking(newBooking);
         creationResponse.then().statusCode(HttpStatus.OK.value());
 
-        Integer createdBookingId = extractBookingId(creationResponse);
+        Integer createdBookingId = JsonUtil.extractBookingId(creationResponse);
 
         Response getAllBookingsResponse = bookingApi.getBookingIds();
         getAllBookingsResponse.then().statusCode(HttpStatus.OK.value());
@@ -56,7 +54,7 @@ public class BookingApiTests {
         Response creationResponse = bookingApi.createBooking(newBooking);
         creationResponse.then().statusCode(HttpStatus.OK.value());
 
-        Integer bookingId = extractBookingId(creationResponse);
+        Integer bookingId = JsonUtil.extractBookingId(creationResponse);
 
         LocalDate updatedCheckout = LocalDate.now().plusDays(12);
         newBooking.getBookingdates().setCheckout(updatedCheckout);
@@ -72,9 +70,5 @@ public class BookingApiTests {
 
     }
 
-    private Integer extractBookingId(Response response) {
-        JsonNode responseBody = response.jsonPath().getObject("$", JsonNode.class);
-        return NullUtil.getOrNull(() -> responseBody.get("bookingid").asInt());
-    }
 
 }

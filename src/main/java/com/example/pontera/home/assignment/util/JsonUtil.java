@@ -20,4 +20,8 @@ public class JsonUtil {
                 .collect(Collectors.toSet());
     }
 
+    public static Integer extractBookingId(Response response) {
+        JsonNode responseBody = response.jsonPath().getObject("$", JsonNode.class);
+        return NullUtil.getOrNull(() -> responseBody.get("bookingid").asInt());
+    }
 }
