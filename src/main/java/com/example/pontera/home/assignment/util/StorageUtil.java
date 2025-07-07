@@ -62,7 +62,9 @@ public class StorageUtil {
     }
 
     private void addCookie(List<Map<String, Object>> cookies, String name, String value, long expires, boolean httpOnly) {
-        if (value == null) return;
+        if (value == null) {
+            return;
+        }
 
         cookies.add(Map.of(
                 "name", name,
