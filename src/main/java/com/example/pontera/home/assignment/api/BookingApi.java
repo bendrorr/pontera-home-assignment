@@ -9,7 +9,6 @@ import static io.restassured.RestAssured.given;
 
 @Component
 public class BookingApi {
-
     private static final String BASE_URL = "https://restful-booker.herokuapp.com/booking";
     private static final String CONTENT_TYPE_JSON = "application/json";
     private static final String AUTHORIZATION = "Basic YWRtaW46cGFzc3dvcmQxMjM=";
