@@ -3,7 +3,7 @@ package com.example.pontera.home.assignment.ui;
 import com.example.pontera.home.assignment.config.ComponentScanConfig;
 import com.example.pontera.home.assignment.pages.impl.AddNewClientPage;
 import com.example.pontera.home.assignment.pages.impl.ClientsPage;
-import com.example.pontera.home.assignment.util.LoginSessionStorageWriter;
+import com.example.pontera.home.assignment.util.storageUtil;
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
@@ -31,7 +31,7 @@ public class PonteraWebsiteWithStorageTests {
     @Autowired
     private Browser browser;
     @Autowired
-    private LoginSessionStorageWriter loginSessionStorageWriter;
+    private storageUtil storageUtil;
 
     private BrowserContext context;
     private Page page;
@@ -42,7 +42,7 @@ public class PonteraWebsiteWithStorageTests {
 
     @BeforeEach
     void setUp() throws IOException {
-        loginSessionStorageWriter.createStorageFromApi();
+        storageUtil.createStorageIfExpired();
         context = browser.newContext(new Browser.NewContextOptions().setStorageStatePath(Paths.get(STORAGE_PATH)));
         page = context.newPage();
 

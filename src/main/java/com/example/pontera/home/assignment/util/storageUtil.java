@@ -6,7 +6,6 @@ import com.example.pontera.home.assignment.dto.LoginRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.response.Response;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -19,20 +18,15 @@ import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
-public class LoginSessionStorageWriter {
+public class storageUtil {
     private static final String FILE_PATH = "src/test/resources/storageState.json";
     private static final String DOMAIN = "advisor-test.pontera.com";
-    private static final long SESSION_EXPIRY_MINUTES = 15;
-    private static final long COOKIE_EXPIRY_YEARS = 10;
-
-    @Value("${auth.email}")
-    private String advisorEmail;
 
     private final AuthenticationApi authenticationApi;
     private final AuthenticationDataProvider dataProvider;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
 
-    public void createStorageFromApi() throws IOException {
+    public void createStorageIfExpired() throws IOException {
         if (!isStorageFileExpired()) {
             return;
         }
@@ -56,23 +50,15 @@ public class LoginSessionStorageWriter {
 
     private List<Map<String, Object>> buildAllCookies(Map<String, String> apiCookies) {
         List<Map<String, Object>> cookies = new ArrayList<>();
-
         addCookie(cookies, "JSESSIONID", apiCookies.get("JSESSIONID"), true);
         addCookie(cookies, "AWSALB", apiCookies.get("AWSALB"), false);
         addCookie(cookies, "AWSALBCORS", apiCookies.get("AWSALBCORS"), false);
-
-        long tenYearsFromNow = Instant.now().plusSeconds(60L * 60 * 24 * 365 * COOKIE_EXPIRY_YEARS).getEpochSecond();
-        addCookie(cookies, "feex-user", "userId%3D453631918%26autoLogin%3Dfalse%26r%3Dmem9ir1cvmltsotbqona17ddtj%26c%3Dxxencrypted2xx...", tenYearsFromNow, false);
-        addCookie(cookies, "user-id", "453631918", false);
-        addCookie(cookies, "user-email", advisorEmail, false);
-        addCookie(cookies, "login-time", String.valueOf(System.currentTimeMillis()), false);
-        addCookie(cookies, "CC", "tuacce215pgie8v2efom5f7v7p", false);
-
         return cookies;
     }
 
     private void addCookie(List<Map<String, Object>> cookies, String name, String value, boolean httpOnly) {
-        addCookie(cookies, name, value, Instant.now().getEpochSecond() + 3600, httpOnly);
+        long expires = Instant.now().getEpochSecond() + 3600;
+        addCookie(cookies, name, value, expires, httpOnly);
     }
 
     private void addCookie(List<Map<String, Object>> cookies, String name, String value, long expires, boolean httpOnly) {
@@ -103,8 +89,9 @@ public class LoginSessionStorageWriter {
         }
 
         Instant lastModified = Instant.ofEpochMilli(file.lastModified());
-        Instant threshold = Instant.now().minusSeconds(SESSION_EXPIRY_MINUTES * 60);
+        Instant threshold = Instant.now().minusSeconds(15 * 60);
 
         return lastModified.isBefore(threshold);
     }
+
 }
