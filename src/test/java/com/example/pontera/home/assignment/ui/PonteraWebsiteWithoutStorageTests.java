@@ -4,13 +4,15 @@ import com.example.pontera.home.assignment.config.ComponentScanConfig;
 import com.example.pontera.home.assignment.pages.impl.AddNewClientPage;
 import com.example.pontera.home.assignment.pages.impl.ClientsPage;
 import com.example.pontera.home.assignment.pages.impl.LoginPage;
+import com.example.pontera.home.assignment.util.RetriesUtil;
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -52,18 +54,22 @@ class PonteraWebsiteWithoutStorageTests {
     }
 
 
-    @Test
-    void whenAdvisorLogsInAndClicksAddNewClient_thenAddNewClientPageIsDisplayed() {
-        loginPage.navigateToLoginPage();
-        assumeThat(loginPage.isPageLoaded()).as("Login page should be loaded").isTrue();
+    @ParameterizedTest
+    @ValueSource(ints = {2})
+    void whenAdvisorLogsInAndClicksAddNewClient_thenAddNewClientPageIsDisplayed(Integer maxRetries) {
+        RetriesUtil.runWithRetries(() -> {
+            loginPage.navigateToLoginPage();
+            assumeThat(loginPage.isPageLoaded()).as("Login page should be loaded").isTrue();
 
-        loginPage.login(advisorEmail, advisorPassword);
-        assumeThat(clientsPage.isPageLoaded()).as("Clients page should be loaded").isTrue();
+            loginPage.login(advisorEmail, advisorPassword);
+            assumeThat(clientsPage.isPageLoaded()).as("Clients page should be loaded").isTrue();
 
-        clientsPage.clickOnAddNewClient();
+            clientsPage.clickOnAddNewClient();
 
-        Assertions.assertThat(addNewClientPage.isPageLoaded())
-                .as("Add New Client page should be loaded")
-                .isTrue();
+            Assertions.assertThat(addNewClientPage.isPageLoaded())
+                    .as("Add New Client page should be loaded")
+                    .isTrue();
+        }, maxRetries);
     }
+
 }

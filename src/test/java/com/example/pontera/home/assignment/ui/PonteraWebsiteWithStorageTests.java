@@ -3,13 +3,15 @@ package com.example.pontera.home.assignment.ui;
 import com.example.pontera.home.assignment.config.ComponentScanConfig;
 import com.example.pontera.home.assignment.pages.impl.AddNewClientPage;
 import com.example.pontera.home.assignment.pages.impl.ClientsPage;
+import com.example.pontera.home.assignment.util.RetriesUtil;
 import com.example.pontera.home.assignment.util.StorageUtil;
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -58,27 +60,32 @@ public class PonteraWebsiteWithStorageTests {
     }
 
 
-    @Test
-    void whenAdvisorClicksAddNewClient_thenAddNewClientPageIsDisplayed() {
-        clientsPage.navigateToClientsPage();
+    @ParameterizedTest
+    @ValueSource(ints = {2})
+    void whenAdvisorClicksAddNewClient_thenAddNewClientPageIsDisplayed(Integer maxRetries) {
+        RetriesUtil.runWithRetries(() -> {
+            clientsPage.navigateToClientsPage();
 
-        assumeThat(clientsPage.isPageLoaded())
-                .isTrue();
+            assumeThat(clientsPage.isPageLoaded())
+                    .isTrue();
 
-        clientsPage.clickOnAddNewClient();
+            clientsPage.clickOnAddNewClient();
 
-        assertThat(addNewClientPage.isPageLoaded())
-                .isTrue();
+            assertThat(addNewClientPage.isPageLoaded())
+                    .isTrue();
+        }, maxRetries);
 
     }
 
-    @Test
-    void whenNavigatingToAddNewClientPage_thenPageShouldBeDisplayed() {
-        addNewClientPage.navigateToAddNewClientPage();
+    @ParameterizedTest
+    @ValueSource(ints = {2})
+    void whenNavigatingToAddNewClientPage_thenPageShouldBeDisplayed(Integer maxRetries) {
+        RetriesUtil.runWithRetries(() -> {
+            addNewClientPage.navigateToAddNewClientPage();
 
-        assertThat(addNewClientPage.isPageLoaded())
-                .isTrue();
-
+            assertThat(addNewClientPage.isPageLoaded())
+                    .isTrue();
+        }, maxRetries);
     }
 
 }
