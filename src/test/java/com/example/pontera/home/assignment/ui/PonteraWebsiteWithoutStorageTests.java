@@ -7,7 +7,6 @@ import com.example.pontera.home.assignment.pages.impl.LoginPage;
 import com.example.pontera.home.assignment.util.RetriesUtil;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assumptions.assumeThat;
 
 @SpringBootTest
@@ -36,12 +36,11 @@ class PonteraWebsiteWithoutStorageTests {
 
     @BeforeEach
     void setUp() {
-        context = contextManager.createContext();
+        context = contextManager.createFreshContext();
         page = contextManager.createPage(context);
         loginPage = new LoginPage(page);
         clientsPage = new ClientsPage(page);
         addNewClientPage = new AddNewClientPage(page);
-
     }
 
     @AfterEach
@@ -62,7 +61,7 @@ class PonteraWebsiteWithoutStorageTests {
 
             clientsPage.clickOnAddNewClient();
 
-            Assertions.assertThat(addNewClientPage.isPageLoaded())
+            assertThat(addNewClientPage.isPageLoaded())
                     .as("Add New Client page should be loaded")
                     .isTrue();
         }, maxRetries);

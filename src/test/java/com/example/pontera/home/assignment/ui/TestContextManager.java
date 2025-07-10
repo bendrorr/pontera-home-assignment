@@ -23,7 +23,7 @@ public class TestContextManager {
                 .setStorageStatePath(Paths.get(STORAGE_PATH)));
     }
 
-    public BrowserContext createContext() {
+    public BrowserContext createFreshContext() {
         return browser.newContext();
     }
 
