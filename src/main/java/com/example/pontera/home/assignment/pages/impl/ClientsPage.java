@@ -9,11 +9,9 @@ import com.microsoft.playwright.options.AriaRole;
 public class ClientsPage implements PageLoadable {
     private static final String CLIENTS_PAGE_URL = "https://advisor-test.pontera.com/qaa5/advisor/clients";
     private static final Integer PAGE_LOAD_TIMEOUT = 8000;
-
-    private final Page page;
-
     private final Locator advisorsComboBox;
     private final Locator addNewClientButton;
+    private final Page page;
 
     public ClientsPage(Page page) {
         this.page = page;

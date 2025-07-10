@@ -9,12 +9,10 @@ import com.microsoft.playwright.options.AriaRole;
 public class LoginPage implements PageLoadable {
     private static final String LOGIN_PAGE_URL = "https://advisor-test.pontera.com/business/auth/signin";
     private static final Integer PAGE_LOAD_TIMEOUT = 5000;
-
-    private final Page page;
-
     private final Locator emailField;
     private final Locator passwordField;
     private final Locator loginButton;
+    private final Page page;
 
     public LoginPage(Page page) {
         this.page = page;

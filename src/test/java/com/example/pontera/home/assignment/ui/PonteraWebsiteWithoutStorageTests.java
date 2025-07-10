@@ -5,7 +5,6 @@ import com.example.pontera.home.assignment.pages.impl.AddNewClientPage;
 import com.example.pontera.home.assignment.pages.impl.ClientsPage;
 import com.example.pontera.home.assignment.pages.impl.LoginPage;
 import com.example.pontera.home.assignment.util.RetriesUtil;
-import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
 import org.assertj.core.api.Assertions;
@@ -28,8 +27,7 @@ class PonteraWebsiteWithoutStorageTests {
     @Value("${auth.password}")
     private String advisorPassword;
     @Autowired
-    private Browser browser;
-
+    private TestContextManager contextManager;
     private BrowserContext context;
     private Page page;
     private LoginPage loginPage;
@@ -38,9 +36,8 @@ class PonteraWebsiteWithoutStorageTests {
 
     @BeforeEach
     void setUp() {
-        context = browser.newContext();
-        page = context.newPage();
-
+        context = contextManager.createContext();
+        page = contextManager.createPage(context);
         loginPage = new LoginPage(page);
         clientsPage = new ClientsPage(page);
         addNewClientPage = new AddNewClientPage(page);
@@ -49,8 +46,7 @@ class PonteraWebsiteWithoutStorageTests {
 
     @AfterEach
     void tearDown() {
-        if (page != null) page.close();
-        if (context != null) context.close();
+        contextManager.close(page, context);
     }
 
 
