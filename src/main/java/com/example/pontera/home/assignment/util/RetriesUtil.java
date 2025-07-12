@@ -15,7 +15,7 @@ public class RetriesUtil {
             } catch (Throwable throwable) {
                 attempts++;
                 if (attempts >= maxRetries) {
-                    throw new RuntimeException("Action failed after " + maxRetries + " attempts", throwable);
+                    throw throwable;
                 }
 
             }
