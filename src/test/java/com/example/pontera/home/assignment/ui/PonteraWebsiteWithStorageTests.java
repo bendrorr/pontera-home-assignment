@@ -7,6 +7,7 @@ import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +44,8 @@ public class PonteraWebsiteWithStorageTests {
     }
 
 
-    @ParameterizedTest
-    @ValueSource(ints = {2})
-    void whenAdvisorClicksAddNewClient_thenAddNewClientPageIsDisplayed(Integer maxRetries) {
+    @Test
+    void whenAdvisorClicksAddNewClient_thenAddNewClientPageIsDisplayed() {
         clientsPage.navigateToClientsPage();
 
         assumeThat(clientsPage.isLoaded())
@@ -60,7 +60,7 @@ public class PonteraWebsiteWithStorageTests {
 
     @ParameterizedTest
     @ValueSource(ints = {2})
-    void whenNavigatingToAddNewClientPage_thenPageShouldBeDisplayed(Integer maxRetries) {
+    void whenNavigatingToAddNewClientPage_thenPageShouldBeDisplayed() {
         addNewClientPage.navigateToAddNewClientPage();
 
         assertThat(addNewClientPage.isLoaded())
