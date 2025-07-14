@@ -54,14 +54,14 @@ class PonteraWebsiteWithoutStorageTests {
     void whenAdvisorLogsInAndClicksAddNewClient_thenAddNewClientPageIsDisplayed(Integer maxRetries) {
         RetriesUtil.runWithRetries(() -> {
             loginPage.navigateToLoginPage();
-            assumeThat(loginPage.isPageLoaded()).as("Login page should be loaded").isTrue();
+            assumeThat(loginPage.isLoaded()).as("Login page should be loaded").isTrue();
 
             loginPage.login(advisorEmail, advisorPassword);
-            assumeThat(clientsPage.isPageLoaded()).as("Clients page should be loaded").isTrue();
+            assumeThat(clientsPage.isLoaded()).as("Clients page should be loaded").isTrue();
 
             clientsPage.clickOnAddNewClient();
 
-            assertThat(addNewClientPage.isPageLoaded())
+            assertThat(addNewClientPage.isLoaded())
                     .as("Add New Client page should be loaded")
                     .isTrue();
         }, maxRetries);

@@ -33,7 +33,7 @@ public class LoginPage implements PageLoadable {
     }
 
     @Override
-    public boolean isPageLoaded() {
+    public boolean isLoaded() {
         return CommonActions.isOnPage(PAGE_LOAD_TIMEOUT, emailField, passwordField);
     }
 }

@@ -28,7 +28,7 @@ public class ClientsPage implements PageLoadable {
     }
 
     @Override
-    public boolean isPageLoaded() {
+    public boolean isLoaded() {
         return CommonActions.isOnPage(PAGE_LOAD_TIMEOUT, advisorsComboBox, addNewClientButton);
     }
 }

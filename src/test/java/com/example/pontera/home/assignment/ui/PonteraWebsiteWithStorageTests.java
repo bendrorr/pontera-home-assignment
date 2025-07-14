@@ -3,7 +3,6 @@ package com.example.pontera.home.assignment.ui;
 import com.example.pontera.home.assignment.config.ComponentScanConfig;
 import com.example.pontera.home.assignment.pages.impl.AddNewClientPage;
 import com.example.pontera.home.assignment.pages.impl.ClientsPage;
-import com.example.pontera.home.assignment.util.RetriesUtil;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
 import org.junit.jupiter.api.AfterEach;
@@ -47,29 +46,25 @@ public class PonteraWebsiteWithStorageTests {
     @ParameterizedTest
     @ValueSource(ints = {2})
     void whenAdvisorClicksAddNewClient_thenAddNewClientPageIsDisplayed(Integer maxRetries) {
-        RetriesUtil.runWithRetries(() -> {
-            clientsPage.navigateToClientsPage();
+        clientsPage.navigateToClientsPage();
 
-            assumeThat(clientsPage.isPageLoaded())
-                    .isTrue();
+        assumeThat(clientsPage.isLoaded())
+                .isTrue();
 
-            clientsPage.clickOnAddNewClient();
+        clientsPage.clickOnAddNewClient();
 
-            assertThat(addNewClientPage.isPageLoaded())
-                    .isTrue();
-        }, maxRetries);
+        assertThat(addNewClientPage.isLoaded())
+                .isTrue();
 
     }
 
     @ParameterizedTest
     @ValueSource(ints = {2})
     void whenNavigatingToAddNewClientPage_thenPageShouldBeDisplayed(Integer maxRetries) {
-        RetriesUtil.runWithRetries(() -> {
-            addNewClientPage.navigateToAddNewClientPage();
+        addNewClientPage.navigateToAddNewClientPage();
 
-            assertThat(addNewClientPage.isPageLoaded())
-                    .isTrue();
-        }, maxRetries);
+        assertThat(addNewClientPage.isLoaded())
+                .isTrue();
     }
 
 }
