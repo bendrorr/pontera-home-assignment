@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.time.LocalDate;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -42,7 +42,7 @@ public class BookingApiTests {
         getAllBookingsResponse.then().statusCode(HttpStatus.OK.value());
 
         Set<Integer> bookingIds = NullUtil.getNonNull(() -> JsonUtil.extractFieldAsIntSet(getAllBookingsResponse, "bookingid"))
-                .orElse(new HashSet<>());
+                .orElse(Collections.emptySet());
 
         assertThat(bookingIds)
                 .contains(createdBookingId);
